@@ -1,21 +1,22 @@
 plugins {
     id("org.springframework.boot") version "3.2.1"
     id("io.spring.dependency-management") version "1.1.4"
-    kotlin("jvm") version "1.9.21"
     kotlin("plugin.spring") version "1.9.21"
-    kotlin("plugin.jpa") version "1.9.21"}
-
-group = "kotlinRepo"
-version = "0.0.1-SNAPSHOT"
-
-repositories {
-    mavenCentral()
+    kotlin("plugin.jpa") version "1.9.21"
 }
 
 dependencies {
 
+    //impl project
+    implementation(project(":repo-persistence"))
+    implementation(project(":repo-core"))
+    implementation(project(":repo-presentation"))
+
     //validation
     implementation("org.springframework.boot:spring-boot-starter-validation")
+
+    //redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
     //security
     implementation("org.springframework.boot:spring-boot-starter-security")
@@ -28,6 +29,11 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
 kotlin {
     jvmToolchain(19)
+}
+
+tasks.getByName<Jar>("jar") {
+    enabled = false
 }

@@ -1,21 +1,17 @@
 plugins {
-    kotlin("jvm")
-}
-
-group = "kotlinRepo"
-version = "0.0.1-SNAPSHOT"
-
-repositories {
-    mavenCentral()
+    kotlin("plugin.allopen") version "1.6.21"
 }
 
 dependencies {
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
+
+    implementation("org.springframework:spring-tx:5.3.22")
+
+    implementation("org.aspectj:aspectjweaver:1.9.7")
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(19)
+allOpen {
+    annotation("team.aliens.dms.common.annotation.UseCase")
+    annotation("team.aliens.dms.common.annotation.ReadOnlyUseCase")
+    annotation("team.aliens.dms.common.annotation.SchedulerUseCase")
+    annotation("team.aliens.dms.common.annotation.Service")
 }

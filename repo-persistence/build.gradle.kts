@@ -1,21 +1,28 @@
 plugins {
-    kotlin("jvm")
-}
-
-group = "kotlinRepo"
-version = "0.0.1-SNAPSHOT"
-
-repositories {
-    mavenCentral()
-}
+    kotlin("plugin.spring") version "1.9.21"
+    kotlin("plugin.jpa") version "1.9.21"}
 
 dependencies {
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
+
+    //impl project
+    implementation(project(":repo-core"))
+
+    //jpa
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    //mysql
+    runtimeOnly("com.mysql:mysql-connector-j")
+
 }
 
-tasks.test {
-    useJUnitPlatform()
+allOpen {
+    annotation("javax.persistence.Entity")
+    annotation("javax.persistence.MappedSuperclass")
+    annotation("javax.persistence.Embeddable")
 }
-kotlin {
-    jvmToolchain(19)
+
+noArg {
+    annotation("javax.persistence.Entity")
+    annotation("javax.persistence.MappedSuperclass")
+    annotation("javax.persistence.Embeddable")
 }
