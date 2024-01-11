@@ -1,4 +1,4 @@
-package com.example.kotlinpractice.global.error
+package kotlinRepo.reporepo.global.filter
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import kotlinRepo.reporepo.global.error.dto.ErrorResponse
