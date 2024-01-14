@@ -18,6 +18,8 @@ dependencies {
 
     //redis
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
+    implementation("com.fasterxml.uuid:java-uuid-generator:3.1.4")
 }
 
 allOpen {
