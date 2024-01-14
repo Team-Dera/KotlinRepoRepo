@@ -24,16 +24,21 @@ dependencies {
     //jwt
     implementation("io.jsonwebtoken:jjwt-api:0.10.7")
 
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
 
-kotlin {
-    jvmToolchain(19)
+kapt {
+    arguments {
+        arg("mapstruct.defaultComponentModel", "spring")
+        arg("mapstruct.unmappedTargetPolicy", "ignore")
+    }
 }
 
 tasks.getByName<Jar>("jar") {
     enabled = false
+}
+repositories {
+    mavenCentral()
 }
