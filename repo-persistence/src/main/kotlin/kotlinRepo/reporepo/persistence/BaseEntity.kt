@@ -1,4 +1,4 @@
-package kotlinRepo.reporepo
+package kotlinRepo.reporepo.persistence
 
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
