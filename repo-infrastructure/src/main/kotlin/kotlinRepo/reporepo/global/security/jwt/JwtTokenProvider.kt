@@ -1,15 +1,12 @@
-package com.example.kotlinpractice.global.security.jwt
+package kotlinRepo.reporepo.global.security.jwt
 
-import com.example.kotlinpractice.global.security.auth.AuthDetailsService
-import com.example.kotlinpractice.global.security.exception.ExpiredTokenException
-import com.study.kotlkotlin.global.security.exception.InvalidTokenException
 import io.jsonwebtoken.*
 import io.jsonwebtoken.security.Keys
 import kotlinRepo.reporepo.domain.auth.dto.response.TokenResponse
 import kotlinRepo.reporepo.domain.auth.model.RefreshToken
-import kotlinRepo.reporepo.global.security.jwt.repository.RefreshTokenRepository
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.Authentication
+import kotlinRepo.reporepo.domain.auth.spi.CommandRefreshTokenPort
+import kotlinRepo.reporepo.domain.auth.spi.JwtPort
+import kotlinRepo.reporepo.global.security.SecurityProperties
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import java.util.*
@@ -17,38 +14,39 @@ import java.util.*
 
 @Component
 class JwtTokenProvider(
-        private val jwtProperties: JwtProperties,
-        private val refreshTokenRepository: RefreshTokenRepository,
-        private val authDetailsService: AuthDetailsService
-) {
+    private val securityProperties: SecurityProperties,
+    private val commandRefreshTokenPort: CommandRefreshTokenPort
+) : JwtPort {
 
-    fun generateTokens(userId: Long): TokenResponse {
+
+     override fun generateTokens(userId: UUID): TokenResponse {
         return TokenResponse(
             accessToken = createAccessToken(userId),
-            accessTokenExp = LocalDateTime.now().plusSeconds(jwtProperties.accessExp),
-            refreshToken = createRefreshToken(userId)
+            accessTokenExpiredAt = LocalDateTime.now().plusSeconds(securityProperties.accessExp.toLong()),
+            refreshToken = createRefreshToken(userId),
+            refreshTokenExpiredAt = LocalDateTime.now().plusSeconds(securityProperties.refreshExp.toLong())
         )
     }
 
-    fun createAccessToken(userId: Long): String {
-        return createToken(userId, "access", jwtProperties.accessExp)
+    private fun createAccessToken(userId: UUID): String {
+        return createToken(userId, JwtProperties.ACCESS, securityProperties.accessExp.toLong())
     }
 
-    fun createRefreshToken(userId: Long): String {
-        val token = createToken(userId, "refresh", jwtProperties.refreshExp)
-        refreshTokenRepository.save(
+    private fun createRefreshToken(userId: UUID): String {
+        val token = createToken(userId, JwtProperties.REFRESH, securityProperties.refreshExp.toLong())
+        commandRefreshTokenPort.save(
             RefreshToken(
                 userId = userId,
                 token = token,
-                expiration = jwtProperties.refreshExp * 1000
+                expirationTime = securityProperties.refreshExp * 1000
             )
         )
         return token
     }
 
-    private fun createToken(userId: Long, jwtType: String, exp: Long): String {
+    private fun createToken(userId: UUID, jwtType: String, exp: Long): String {
         return Jwts.builder()
-            .signWith(Keys.hmacShaKeyFor(jwtProperties.secretKey.toByteArray()), SignatureAlgorithm.HS256)
+            .signWith(Keys.hmacShaKeyFor(securityProperties.secretKey.toByteArray()), SignatureAlgorithm.HS256)
             .setSubject(userId.toString())
             .setHeaderParam(Header.JWT_TYPE, jwtType)
             .setId(userId.toString())
@@ -57,39 +55,5 @@ class JwtTokenProvider(
             .compact()
     }
 
-    fun getAuthentication(token: String): Authentication {
 
-        val claims = getClaims(token)
-        if (claims.header[Header.JWT_TYPE] == "access") {
-            throw InvalidTokenException.EXCEPTION
-        }
-
-        val details = authDetailsService.loadUserByUsername(claims.body.id)
-        return UsernamePasswordAuthenticationToken(details, "", details.authorities)
-    }
-
-    private fun getClaims(token: String): Jws<Claims> {
-        return try {
-            Jwts
-                .parser()
-                .setSigningKey(jwtProperties.secretKey)
-                .parseClaimsJws(token)
-        } catch (e: Exception) {
-            when (e) {
-                is ExpiredTokenException -> throw ExpiredTokenException.EXCEPTION
-                else -> throw InvalidTokenException.EXCEPTION
-            }
-        }
-    }
-/*
-    fun resolveToken(request: HttpServletRequest): String? {
-
-        val bearerToken = request.getHeader(jwtProperties.header)
-
-        if (bearerToken != null && (bearerToken.startsWith(jwtProperties.header))) {
-            return bearerToken.substring(7)
-        }
-        return null
-    }
-*/
 }
