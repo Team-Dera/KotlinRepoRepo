@@ -1,14 +1,16 @@
 package kotlinRepo.reporepo.domain.auth.model
 
+import kotlinRepo.reporepo.common.annotation.Aggregate
+import java.util.*
 
-//@Aggregate
 
+@Aggregate
 data class RefreshToken(
 
     val token: String,
 
-    val userId: Long,
+    val userId: UUID,
 
-    val expiration: Long
+    val expirationTime: Int
 
 )
