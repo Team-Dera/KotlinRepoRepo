@@ -1,7 +1,10 @@
 package com.example.kotlinpractice.global.security
 
-import com.example.kotlinpractice.global.security.jwt.JwtTokenProvider
+import kotlinRepo.reporepo.global.security.jwt.JwtTokenProvider
 import com.fasterxml.jackson.databind.ObjectMapper
+import kotlinRepo.reporepo.global.filter.FilterConfig
+import kotlinRepo.reporepo.global.filter.JwtFilter
+import kotlinRepo.reporepo.global.security.jwt.JwtParser
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -11,14 +14,12 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 
 @EnableWebSecurity
 @Configuration
-class SecurityConfig(
-        private val jwtTokenProvider: JwtTokenProvider,
-        private val objectMapper: ObjectMapper
-) {
+class SecurityConfig {
 
     @Bean
     fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
@@ -26,14 +27,13 @@ class SecurityConfig(
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
 
-        http
+        return http
             .csrf { obj: AbstractHttpConfigurer<*, *> -> obj.disable() }
             .sessionManagement { sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-            .authorizeHttpRequests { authorizeRequests -> authorizeRequests.anyRequest().permitAll() }
-
-        http.apply(FilterConfig(jwtTokenProvider, objectMapper))
-
-        return http.build()
+            .authorizeHttpRequests { authorizeRequests ->
+                authorizeRequests.anyRequest().permitAll()
+            }
+            .build()
     }
 
 }
