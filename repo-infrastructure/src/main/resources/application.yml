@@ -26,7 +26,6 @@ secret:
   refreshExp: ${REFRESH_EXP:72000}
 
 
-
 logging:
   level:
     com.example : DEBUG

@@ -55,5 +55,4 @@ class JwtTokenProvider(
             .compact()
     }
 
-
 }
