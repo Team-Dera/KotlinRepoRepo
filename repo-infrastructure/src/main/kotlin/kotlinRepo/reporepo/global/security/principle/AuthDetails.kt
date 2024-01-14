@@ -1,11 +1,12 @@
-package com.example.kotlinpractice.global.security.auth
+package kotlinRepo.reporepo.global.security.principle
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.util.UUID
 
 class AuthDetails(
-    val user: User
-): UserDetails {
+    override val userId: UUID
+): UserDetails, CustomDetails {
 
     override fun getAuthorities(): Collection<GrantedAuthority>? {
         return null
@@ -16,7 +17,7 @@ class AuthDetails(
     }
 
     override fun getUsername(): String {
-        return user.accountId
+        return userId.toString()
     }
 
     override fun isAccountNonExpired(): Boolean {
