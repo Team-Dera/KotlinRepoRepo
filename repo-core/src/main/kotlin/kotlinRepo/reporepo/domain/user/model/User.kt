@@ -10,8 +10,8 @@ data class User(
 
     val userName: String,
 
-    val password: String,
+    val accountId: String,
 
-    val orderCount: Int,
+    val password: String,
 
 )
