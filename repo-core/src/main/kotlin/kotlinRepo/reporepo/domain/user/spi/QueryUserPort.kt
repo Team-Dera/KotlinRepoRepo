@@ -9,4 +9,5 @@ interface QueryUserPort {
 
     fun queryUserById(userId: UUID): User?
 
+    fun existUserByAccountId(accountId: String) : Boolean
 }
