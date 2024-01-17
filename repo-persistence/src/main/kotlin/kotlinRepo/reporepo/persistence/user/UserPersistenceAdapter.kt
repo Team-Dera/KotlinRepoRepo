@@ -1,9 +1,11 @@
 package kotlinRepo.reporepo.persistence.user
 
+import kotlinRepo.reporepo.domain.user.model.User
 import kotlinRepo.reporepo.domain.user.spi.UserPort
 import kotlinRepo.reporepo.persistence.user.mapper.UserMapper
 import kotlinRepo.reporepo.persistence.user.repository.UserJpaRepository
 import org.springframework.stereotype.Component
+import java.util.*
 
 @Component
 class UserPersistenceAdapter (
@@ -11,13 +13,12 @@ class UserPersistenceAdapter (
     private val userJpaRepository: UserJpaRepository
 ) : UserPort {
 
-    override fun queryUserByAccountId(accountId: String) = userMapper.toDomain(
-        userJpaRepository.findByAccountId(accountId)
-
-    )
-
     override fun queryUserByUsername(username: String?) = userMapper.toDomain (
         userJpaRepository.findByUsername(username)
+    )
+
+    override fun queryUserById(userId: UUID) = userMapper.toDomain(
+        userJpaRepository.findUserJpaEntityById(userId)
     )
 
 }
