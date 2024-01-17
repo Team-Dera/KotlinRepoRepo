@@ -9,9 +9,11 @@ import java.util.*
 @Repository
 interface UserJpaRepository : JpaRepository<UserJpaEntity, UUID> {
 
-    fun findByAccountId(accountId: String) : UserJpaEntity
+    fun findByAccountId(accountId: String?) : UserJpaEntity
 
     fun findByUsername(username: String?) : UserJpaEntity
 
     fun findUserJpaEntityById(userId: UUID) : UserJpaEntity
+
+    fun existsByAccountId(accountId: String?) : Boolean
 }
