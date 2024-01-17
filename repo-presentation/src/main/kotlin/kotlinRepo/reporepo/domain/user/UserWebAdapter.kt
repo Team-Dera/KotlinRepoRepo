@@ -1,6 +1,7 @@
 package kotlinRepo.reporepo.domain.user
 
 import jakarta.validation.Valid
+import kotlinRepo.reporepo.domain.auth.dto.response.TokenResponse
 import kotlinRepo.reporepo.domain.user.dto.reqsponse.SignupRequest
 import kotlinRepo.reporepo.domain.user.dto.request.SignupWebRequest
 import kotlinRepo.reporepo.domain.user.usecase.SignupUseCase
@@ -16,12 +17,12 @@ class UserWebAdapter (
 ) {
 
     @PostMapping
-    fun signup(@RequestBody @Valid webRequest: SignupWebRequest) {
+    fun signup(@RequestBody @Valid webRequest: SignupWebRequest) : TokenResponse {
         val request = SignupRequest(
             username =  webRequest.username,
             accountId = webRequest.accountId,
             password = webRequest.password
         )
-        signupUseCase.execute(request)
+         return signupUseCase.execute(request)
     }
 }
