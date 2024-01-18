@@ -1,6 +1,8 @@
 package kotlinRepo.reporepo.global.security.jwt
 
-import io.jsonwebtoken.*
+import io.jsonwebtoken.Header
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
 import kotlinRepo.reporepo.domain.auth.dto.response.TokenResponse
 import kotlinRepo.reporepo.domain.auth.model.RefreshToken
@@ -44,9 +46,11 @@ class JwtTokenProvider(
         return token
     }
 
+
+
     private fun createToken(userId: UUID, jwtType: String, exp: Long): String {
         return Jwts.builder()
-            .signWith(Keys.hmacShaKeyFor(securityProperties.secretKey.toByteArray()), SignatureAlgorithm.HS256)
+            .signWith(SignatureAlgorithm.HS256, securityProperties.secretKey)
             .setSubject(userId.toString())
             .setHeaderParam(Header.JWT_TYPE, jwtType)
             .setId(userId.toString())
