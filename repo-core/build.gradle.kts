@@ -20,3 +20,7 @@ allOpen {
     annotation("kotlinRepo.reporepo.common.annotation.SchedulerUseCase")
     annotation("kotlinRepo.reporepo.common.annotation.Service")
 }
+
+springBoot {
+    mainClass = "kotlinRepo.reporepo.RepoRepoApplication"
+}

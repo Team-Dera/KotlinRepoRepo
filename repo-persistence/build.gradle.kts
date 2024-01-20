@@ -37,3 +37,6 @@ repositories {
     mavenCentral()
 }
 
+springBoot {
+    mainClass = "kotlinRepo.reporepo.RepoRepoApplication"
+}

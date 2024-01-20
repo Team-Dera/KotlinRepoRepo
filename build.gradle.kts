@@ -83,3 +83,7 @@ allprojects {
 tasks.getByName<Jar>("jar") {
 	enabled = false
 }
+
+springBoot {
+	mainClass = "kotlinRepo.reporepo.RepoRepoApplication"
+}

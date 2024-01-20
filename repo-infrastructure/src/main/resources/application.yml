@@ -1,6 +1,4 @@
 spring:
-  main:
-    allow-bean-definition-overriding : true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${DB_URL}
@@ -35,3 +33,14 @@ logging:
           descriptor:
             sql: trace
 
+cloud:
+  aws:
+    credentials:
+      access-Key: ${AWS_ACCESS_KEY}
+      secret-Key: ${AWS_SECRET_KEY}
+    s3:
+      bucket: kangsunbucket
+    region:
+      static: ap-northeast-2
+  stack:
+    auto: false
