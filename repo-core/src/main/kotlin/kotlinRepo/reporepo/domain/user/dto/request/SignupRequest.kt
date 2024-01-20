@@ -1,4 +1,4 @@
-package kotlinRepo.reporepo.domain.user.dto.reqsponse
+package kotlinRepo.reporepo.domain.user.dto.request
 
 data class SignupRequest (
     val username: String,
