@@ -8,4 +8,6 @@ interface GetUserService {
     fun queryUserById(userId: UUID): User
 
     fun getCurrentUser() : User
+
+    fun queryUserByAccountId(accountId: String) : User
 }

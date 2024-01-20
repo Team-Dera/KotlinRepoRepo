@@ -25,6 +25,11 @@ class UserPersistenceAdapter (
         return userJpaRepository.existsByAccountId(accountId)
     }
 
+    override fun queryUserByAccountId(accountId: String) = userMapper.toDomain(
+        userJpaRepository.findByAccountId(accountId)
+
+    )
+
     override fun saveUser(user: User) = userMapper.toDomain(
         userJpaRepository.save(
             userMapper.toEntity(user)

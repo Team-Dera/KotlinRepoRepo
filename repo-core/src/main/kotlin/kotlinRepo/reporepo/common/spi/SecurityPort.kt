@@ -8,4 +8,5 @@ interface SecurityPort {
 
     fun isPasswordMatch(rawPassword: String, encodedPassword: String): Boolean
 
+    fun encodePassword(rawPassword: String) : String
 }

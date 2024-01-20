@@ -22,4 +22,7 @@ class GetUserServiceImpl (
         return queryUserById(currentUserId)
     }
 
+    override fun queryUserByAccountId(accountId: String) =
+        queryUserPort.queryUserByAccountId(accountId) ?: throw UserNotFoundException
+
 }
