@@ -6,4 +6,6 @@ interface SecurityPort {
 
     fun getCurrentUserId(): UUID
 
+    fun isPasswordMatch(rawPassword: String, encodedPassword: String): Boolean
+
 }
