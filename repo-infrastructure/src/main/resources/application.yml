@@ -36,8 +36,8 @@ logging:
 cloud:
   aws:
     credentials:
-      access-Key: ${AWS_ACCESS_KEY}
-      secret-Key: ${AWS_SECRET_KEY}
+      awsAccessKey: ${AWS_ACCESS_KEY}
+      awsSecretKey: ${AWS_SECRET_KEY}
     s3:
       bucket: kangsunbucket
     region:

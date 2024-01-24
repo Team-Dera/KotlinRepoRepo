@@ -7,6 +7,9 @@ plugins {
 
 dependencies {
 
+    //s3
+    implementation ("com.amazonaws:aws-java-sdk-s3:1.12.281")
+
     //impl project
     implementation(project(":repo-persistence"))
     implementation(project(":repo-core"))
