@@ -1,7 +1,10 @@
 package kotlinRepo.reporepo.thirdparty.storage
 
 import com.amazonaws.HttpMethod
+import com.amazonaws.auth.AWSStaticCredentialsProvider
+import com.amazonaws.auth.BasicAWSCredentials
 import com.amazonaws.services.s3.AmazonS3Client
+import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import com.amazonaws.services.s3.internal.Mimetypes
 import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest
@@ -9,6 +12,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
 import kotlinRepo.reporepo.common.spi.UploadFilePort
 import kotlinRepo.reporepo.domain.user.exception.UserNotFoundException
+import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 import java.io.File
 import java.io.IOException

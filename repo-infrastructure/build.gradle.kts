@@ -10,6 +10,9 @@ dependencies {
     //s3
     implementation ("com.amazonaws:aws-java-sdk-s3:1.12.281")
 
+    //aws
+    implementation ("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
+
     //impl project
     implementation(project(":repo-persistence"))
     implementation(project(":repo-core"))
