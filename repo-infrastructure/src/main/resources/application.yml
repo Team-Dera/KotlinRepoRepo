@@ -1,9 +1,9 @@
 spring:
   datasource:
+    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/reporepo}
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:070211}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DB_URL:jdbc:mysql://15.164.62.45:3306/svap}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: create
@@ -11,6 +11,7 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
     defer-datasource-initialization: true
 
   data:
@@ -23,7 +24,6 @@ secret:
   accessExp: ${ACCESS_EXP:18000}
   refreshExp: ${REFRESH_EXP:72000}
 
-
 logging:
   level:
     com.example : DEBUG
@@ -33,14 +33,16 @@ logging:
           descriptor:
             sql: trace
 
+
 cloud:
   aws:
     credentials:
-      awsAccessKey: ${AWS_ACCESS_KEY}
-      awsSecretKey: ${AWS_SECRET_KEY}
-    s3:
-      bucket: kangsunbucket
+      aws-access-key: ${AWS_ACCESS_KEY:access}
+      aws-secret-key: ${AWS_SECRET_KEY:secret}
     region:
-      static: ap-northeast-2
-  stack:
-    auto: false
+      static: ${AWS_REGION:ap-northeast-2}
+      auto: false
+    stack:
+      auto: false
+    s3:
+      bucket: ${BUCKET_NAME:dms}

@@ -20,7 +20,7 @@ class UserWebAdapter (
     private val loginUseCase: LoginUseCase
 ) {
 
-    @PostMapping
+    @PostMapping("/signup")
     fun signup(@RequestBody @Valid webRequest: SignupWebRequest) : TokenResponse {
         val request = SignupRequest(
             username =  webRequest.username,
